@@ -1,6 +1,8 @@
+import DefaultLayout from "../components/DefaultLayout"
+
 const CarBooking = () => {
   return (
-    <div>CarBooking</div>
+    <DefaultLayout>CarBooking</DefaultLayout>
   )
 }
 export default CarBooking
