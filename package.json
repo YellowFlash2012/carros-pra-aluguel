@@ -1,0 +1,28 @@
+{
+  "name": "carros-pra-aluguel",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "car rental full stack app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YellowFlash2012/carros-pra-aluguel.git"
+  },
+  "author": "Vivien H.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YellowFlash2012/carros-pra-aluguel/issues"
+  },
+  "homepage": "https://github.com/YellowFlash2012/carros-pra-aluguel#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.3",
+    "morgan": "^1.10.0"
+  }
+}
