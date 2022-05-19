@@ -8,7 +8,7 @@ const DefaultLayout = (props) => {
                     
                 </div>
             </div>
-            <div className="content">
+            <div className="content mt-5">
                 {props.children}
             </div>
         </div>

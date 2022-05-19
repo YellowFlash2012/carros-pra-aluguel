@@ -1,8 +1,8 @@
 [
 {
 
-"name": "Tata Altroz",
-"image": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Tata/Altroz/7247/1578642800962/front-left-side-47.jpg?tr=w-456",
+"name": "Toyota Tacoma",
+"image": "https://images.unsplash.com/photo-1559416523-140ddc3d238c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=851&q=80",
 "rentPerHour": 500,
 "fuelType": "petrol",
 "bookedTimeSlots": [],
@@ -22,8 +22,8 @@
 },
 {
 
-"name": "Tata Nexon",
-"image": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Hyundai/Creta/6775/1584360708758/front-left-side-47.jpg?tr=w-456",
+"name": "Toyota 4runner",
+"image": "https://images.unsplash.com/photo-1599923819968-1b5ac59c0d5a?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=875",
 "rentPerHour": 500,
 "fuelType": "petrol",
 "bookedTimeSlots": [],
@@ -40,14 +40,14 @@
 },
 {
 
-"name": "MG Astor",
-"image": "https://stimg.cardekho.com/images/carexteriorimages/630x420/MG/Astor/7516/1631781165905/front-left-side-47.jpg?tr=w-456",
+"name": "Laxus LC500",
+"image": "https://images.unsplash.com/photo-1599245722279-420f053251eb?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1812",
 "rentPerHour": 500,
 "fuelType": "petrol",
 "bookedTimeSlots": [
 
 ],
-"capacity": 5,
+"capacity": 2,
 "__v": 1
 },
 {
@@ -61,8 +61,8 @@
 },
 {
 
-"name": "Maruti Baleno",
-"image": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Maruti/Baleno/6778/1615985070703/front-left-side-47.jpg?tr=w-456",
+"name": "Porsche Cayenne",
+"image": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870",
 "rentPerHour": 500,
 "fuelType": "petrol",
 "bookedTimeSlots": [],
