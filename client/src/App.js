@@ -1,10 +1,11 @@
 
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import CarBooking from "./pages/CarBooking";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
 
 import "antd/dist/antd.css";
 
@@ -20,7 +21,7 @@ function App() {
 
           <Route path="/register" element={<Register />} />
 
-          <Route path="/book-car" element={<CarBooking />} />
+          <Route path="/booking/:carID" element={<CarBooking />} />
         </Routes>
       </BrowserRouter>
     </div>
@@ -28,3 +29,11 @@ function App() {
 }
 
 export default App;
+
+export const ProtectedRoute = (props) => {
+    if (localStorage.getItem("user")) {
+      return <Route {...props} />
+    } else {
+      return <Navigate to="/login" replace />
+    }
+}

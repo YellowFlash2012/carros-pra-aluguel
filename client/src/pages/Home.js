@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { fetchAllCars } from "../features/carsSlice";
 
 import { Button, Col, Row, Spin } from "antd";
+import { Link } from "react-router-dom";
 
 const Home = () => {
     const { loading, cars, error } = useSelector((store) => store.cars);
@@ -36,7 +37,7 @@ const Home = () => {
 
                                     <div>
                                         <button className="booking-btn me-2">
-                                            Book Now
+                                            <Link to={`/booking/${car._id}`}>Book Now</Link>
                                         </button>
                                     </div>
                                 </div>

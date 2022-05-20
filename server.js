@@ -4,6 +4,7 @@ import morgan from "morgan"
 import cors from "cors"
 import connectDB from "./db.js";
 import carsRoutes from "./routes/cars.js"
+import userRoutes from "./routes/users.js"
 
 config()
 
@@ -22,6 +23,7 @@ app.get("/", (req, res)=> {
 })
 
 app.use("/api/v1/cars", carsRoutes)
+app.use("/api/v1/users", userRoutes)
 
 connectDB()
 app.listen(port, () => {
