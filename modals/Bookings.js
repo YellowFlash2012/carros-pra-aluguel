@@ -7,6 +7,7 @@ const bookingSchema = new mongoose.Schema({
         from: { type: String },
         to: { type: String }
     },
+    
     totalHours: { type: Number },
     totalDue: { type: Number },
     driverRequired:{type:Boolean},

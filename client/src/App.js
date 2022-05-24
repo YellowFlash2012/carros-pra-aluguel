@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 
 import "antd/dist/antd.css";
 import MyBookings from "./pages/MyBookings";
+import AddNewCar from "./pages/AddNewCar";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
           <Route path="/booking/:carID" element={<CarBooking />} />
 
           <Route path="/my-bookings" element={<MyBookings />} />
+
+          <Route path="/add-new-car" element={<AddNewCar/>} />
         </Routes>
       </BrowserRouter>
     </div>

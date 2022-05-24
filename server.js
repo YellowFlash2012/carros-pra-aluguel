@@ -6,7 +6,7 @@ import connectDB from "./db.js";
 import carsRoutes from "./routes/cars.js"
 import userRoutes from "./routes/users.js"
 import bookingRoutes from "./routes/bookings.js"
-import Bookings from "./modals/Bookings.js";
+
 
 config()
 
@@ -26,7 +26,7 @@ app.get("/", (req, res)=> {
 
 app.use("/api/v1/cars", carsRoutes)
 app.use("/api/v1/users", userRoutes)
-app.use("/api/v1/Bookings", bookingRoutes)
+app.use("/api/v1/bookings", bookingRoutes)
 
 connectDB()
 app.listen(port, () => {

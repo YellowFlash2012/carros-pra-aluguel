@@ -76,7 +76,7 @@ p {
   transition: 0.3s;
 }
 
-.booking-btn, .login-btn, .ant-btn {
+.booking-btn, .login-btn, .ant-btn, .add-new-car {
   box-shadow: none;
   background-color: #fff;
   color: orange;
