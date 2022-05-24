@@ -14,6 +14,7 @@ import "./CarBooking.css"
 
 const { RangePicker } = DatePicker;
 
+
 const CarBooking = () => {
     const user = localStorage.getItem("user");
     const [car, setCar] = useState({});
@@ -213,13 +214,16 @@ const CarBooking = () => {
 
                                 <StripeCheckout
                                     token={onToken}
+                                    currency="USD"
                                     amount={totalDue * 100}
-                                    stripeKey="process.env.REACT_APP_STRIPE_PUBLIC_KEY"
+                                    stripeKey="pk_test_51K12rVLF3utY5MntJ6fJgfiOnymfrAbsahlJuRzCC7XZw3ZvxuzaX7aNzYEa7y9YWYk0pWIiQQXB575YCnjpmbpB00H31ZhuMG"
+                                ></StripeCheckout>
+                                <button
+                                    className="booking-btn"
+                                    onClick={carBookingHandler}
                                 >
-                                    <button className="booking-btn">
-                                        Book Now
-                                    </button>
-                                </StripeCheckout>
+                                    Book Now
+                                </button>
                             </div>
                         )}
                     </Col>

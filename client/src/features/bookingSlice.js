@@ -10,15 +10,53 @@ import axios from "axios";
 
 const initialState = {
     loading: false,
-
+    bookings: [],
     error: "",
-};
+}; 
 
 export const bookACar = createAsyncThunk("booking/bookACar",(reqObj) => {
     axios.post("http://localhost:8000/api/v1/bookings", reqObj).then((res) => {
-        message.success("Booking was successful! Thank you for choosing us!")
+        message.success("Booking was successful!");
+
+        setTimeout(() => {
+            window.location.href=("/my-bookings")
+        }, 5000);
     }).catch((error) => {
         isRejectedWithValue("Invalid Credentials");
         message.error("Something went wrong, please try again!")
     });
 })
+
+export const fetchAllBookings = createAsyncThunk("booking/fetchAllBookings", () => {
+    return axios
+        .get("http://localhost:8000/api/v1/bookings")
+        .then((res) => res.data.data.bookings).catch((error) => {
+            isRejectedWithValue("Fetch Unsuccessful");
+            message.error("Something went wrong, please try again!");
+        });
+});
+
+const bookingSlice = createSlice({
+    name: "bookings",
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllBookings.pending, (state) => {
+            state.loading = true;
+        });
+
+        builder.addCase(fetchAllBookings.fulfilled, (state, action) => {
+            state.loading = false;
+            state.bookings = action.payload;
+            state.error = "";
+        });
+
+        builder.addCase(fetchAllBookings.rejected, (state, action) => {
+            state.loading = false;
+            state.bookings = [];
+            state.error = action.error.message;
+        });
+    },
+});
+
+export default bookingSlice.reducer;

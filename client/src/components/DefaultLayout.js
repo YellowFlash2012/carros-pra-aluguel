@@ -21,7 +21,7 @@ const DefaultLayout = (props) => {
                     label: (
                         <a
                             
-                            href="/book-car"
+                            href="/my-bookings"
                         >
                             Bookings
                         </a>
