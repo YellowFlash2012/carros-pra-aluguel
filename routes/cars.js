@@ -52,4 +52,14 @@ router.put("/:id", async (req, res) => {
     }
 })
 
+router.delete("/:id", async (req, res) => {
+    try {
+        await carModel.findOneAndDelete({ id: req.body._id });
+
+        res.send("This car is deleted!");
+    } catch (error) {
+        return res.status(400).send(error)
+    }
+})
+
 export default router

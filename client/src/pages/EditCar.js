@@ -4,7 +4,7 @@ import DefaultLayout from "../components/DefaultLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchAllCars } from "../features/carsSlice";
+import { editCarAction, fetchAllCars } from "../features/carsSlice";
 
 const EditCar = ({match}) => {
     const navigate = useNavigate();
@@ -31,7 +31,8 @@ const EditCar = ({match}) => {
     }, [cars]);
 
     const EditCarHandler = (values) => {
-        values._id=carToEdit._d
+        values._id = carToEdit._d
+        dispatch(editCarAction())
         console.log(values);
     }
 

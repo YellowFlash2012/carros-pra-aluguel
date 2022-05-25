@@ -20,29 +20,45 @@ export const addNewCarAction = createAsyncThunk("cars/addNewCarAction", (reqObj)
         message.success("New car added successfully!");
 
         setTimeout(() => {
-            window.location.href = "/";
+            window.location.href = "/admin";
         }, 3000);
     }).catch((error) => {
-        isRejectedWithValue("An error occured and your car could NOT be added right now!");
+        isRejectedWithValue("An error occured and this car could NOT be added right now!");
 
         message.error(
-            "An error occured and your car could NOT be added right now!"
+            "An error occured and this car could NOT be added right now!"
         );
     });
 });
 
 export const editCarAction = createAsyncThunk("cars/editCarAction", (reqObj) => {
-    return axios.put("http://localhost:8000/api/v1/cars", reqObj).then((res) => {
-        message.success("Car edited successfully!");
+    return axios.delete("http://localhost:8000/api/v1/cars/:id", reqObj).then((res) => {
+        message.success("This car is deleted!");
 
         setTimeout(() => {
-            window.location.href = "/";
+            window.location.href = "/admin";
         }, 3000);
     }).catch((error) => {
-        isRejectedWithValue("An error occured and your car could NOT be edited right now!");
+        isRejectedWithValue("An error occured and this car could NOT be edited right now!");
 
         message.error(
-            "An error occured and your car could NOT be edited right now!"
+            "An error occured and this car could NOT be edited right now!"
+        );
+    });
+});
+
+export const deleteCarAction = createAsyncThunk("cars/deleteCarAction", (reqObj) => {
+    return axios.put("http://localhost:8000/api/v1/cars/:id", reqObj).then((res) => {
+        message.success("Car deleted successfully!");
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+    }).catch((error) => {
+        isRejectedWithValue("An error occured and this car could NOT be deleted right now!");
+
+        message.error(
+            "An error occured and this car could NOT be deleted right now!"
         );
     });
 });

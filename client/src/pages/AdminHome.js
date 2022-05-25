@@ -1,9 +1,18 @@
 import DefaultLayout from "../components/DefaultLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { fetchAllCars } from "../features/carsSlice";
+import { deleteCarAction, fetchAllCars } from "../features/carsSlice";
 
-import { Button, Col, Row, Spin, DatePicker, Checkbox } from "antd";
+import {
+    message,
+    Popconfirm,
+    Col,
+    Row,
+    Spin,
+    DatePicker,
+    
+} from "antd";
+
 
 import { EditOutlined, DeleteFilled } from "@ant-design/icons";
 
@@ -57,12 +66,20 @@ const AdminHome = () => {
         setAvailableCars(temp);
     };
 
+    const carDeletionHandler = (carID) => {
+        
+    }
+
     return (
         <DefaultLayout>
-
             <Row justify="center" gutter={16}>
                 <Col lg={20} sm={24}>
-                    <button onClick={()=>navigate("/add-new-car")} className="add-new-car">ADD NEW CAR</button>
+                    <button
+                        onClick={() => navigate("/add-new-car")}
+                        className="add-new-car"
+                    >
+                        ADD NEW CAR
+                    </button>
                 </Col>
             </Row>
 
@@ -82,7 +99,9 @@ const AdminHome = () => {
                                 <div className="car-content d-flex align-items-center justify-content-between">
                                     <div>
                                         <p className="fw-bolder">{car.name}</p>
-                                        <p>Rent Per Hour {car.rentPerHour} /-</p>
+                                        <p>
+                                            Rent Per Hour {car.rentPerHour} /-
+                                        </p>
                                     </div>
 
                                     <div className="me-2">
@@ -92,7 +111,22 @@ const AdminHome = () => {
                                             }
                                             className="me-2"
                                         />
-                                        <DeleteFilled />
+
+                                        <Popconfirm
+                                            title="Are you sure to delete this car?"
+                                            onConfirm={() =>
+                                                dispatch(
+                                                    deleteCarAction({
+                                                        carID: car._id,
+                                                    })
+                                                )
+                                            }
+                                            onCancel={() => navigate("/admin")}
+                                            okText="Yes"
+                                            cancelText="No"
+                                        >
+                                            <DeleteFilled />
+                                        </Popconfirm>
                                     </div>
                                 </div>
                             </div>
