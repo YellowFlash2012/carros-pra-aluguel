@@ -1,0 +1,14 @@
+.anticon-edit, 
+.anticon-delete {
+    height: 2rem;
+    width: 1rem;
+    cursor: pointer;
+}
+
+.anticon-edit {
+    color: green;
+}
+
+.anticon-delete {
+    color: red;
+}

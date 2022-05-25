@@ -31,6 +31,22 @@ export const addNewCarAction = createAsyncThunk("cars/addNewCarAction", (reqObj)
     });
 });
 
+export const editCarAction = createAsyncThunk("cars/editCarAction", (reqObj) => {
+    return axios.put("http://localhost:8000/api/v1/cars", reqObj).then((res) => {
+        message.success("Car edited successfully!");
+
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 3000);
+    }).catch((error) => {
+        isRejectedWithValue("An error occured and your car could NOT be edited right now!");
+
+        message.error(
+            "An error occured and your car could NOT be edited right now!"
+        );
+    });
+});
+
 const carsSlice = createSlice({
     name: "cars",
     initialState,

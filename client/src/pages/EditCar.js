@@ -1,33 +1,52 @@
 import { Button, Col, Form, Input, Row, Spin } from "antd";
 import DefaultLayout from "../components/DefaultLayout";
 
-import {useDispatch, useSelector} from "react-redux"
-import { addNewCarAction } from "../features/carsSlice";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { fetchAllCars } from "../features/carsSlice";
 
-const AddNewCar = () => {
-    const dispatch = useDispatch();
+const EditCar = ({match}) => {
     const navigate = useNavigate();
-    const { loading } = useSelector(store => store.cars);
+    const dispatch = useDispatch();
+    let carID  = useParams();
+    console.log(carID);
 
-    const addNewCarHandler = (values) => {
+    const [carToEdit, setCarToEdit] = useState();
+    const [totalCars, setTotalCars] = useState([]);
+    
+    const { loading, cars } = useSelector((store) => store.cars);
+    console.log(cars);
+
+    console.log(cars.find((o) => o._id.ObjectId === carID.ObjectId));
+
+    useEffect(() => {
+        if (cars.length === 0) {
+            dispatch(fetchAllCars());
+        } else {
+            setTotalCars(cars)
+            setCarToEdit(cars.find((car) => (car._id).str === carID.str));
+            console.log(carToEdit);
+        }
+    }, [cars]);
+
+    const EditCarHandler = (values) => {
+        values._id=carToEdit._d
         console.log(values);
-        values.bookedTimeSlots = [];
-
-        dispatch(addNewCarAction(values))
-    };
+    }
 
     return (
         <DefaultLayout>
             {loading && <Spin className="spinner" size="large" />}
             <Row justify="center mt-2 mb-3">
                 <Col lg={12} sm={24}>
-                    <Form
+                    {totalCars.length>0 && <Form
                         className="bs1 p-2"
                         layout="vertical"
-                        onFinish={addNewCarHandler}
+                        initialValues={carToEdit}
+                        onFinish={EditCarHandler}
                     >
-                        <h1 className="text-center">Add New Car</h1>
+                        <h1 className="text-center">Edit Car</h1>
                         <Form.Item
                             name="name"
                             label="Car Name"
@@ -65,14 +84,19 @@ const AddNewCar = () => {
                         </Form.Item>
 
                         <div className="text-end">
-                            <button onClick={()=>navigate("/admin")} className="cancel me-3">CANCEL</button>
-                            
+                            <button
+                                type="submit"
+                                className="cancel me-2"
+                                onClick={() => navigate("/admin")}
+                            >
+                                CANCEL
+                            </button>
                             <button className="add-new-car">ADD CAR</button>
                         </div>
-                    </Form>
+                    </Form>}
                 </Col>
             </Row>
         </DefaultLayout>
     );
 };
-export default AddNewCar;
+export default EditCar;
