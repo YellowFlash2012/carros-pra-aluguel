@@ -16,7 +16,7 @@ import {
 
 import { EditOutlined, DeleteFilled } from "@ant-design/icons";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import moment from "moment";
 
 import "./AdminHome.css"
@@ -30,14 +30,21 @@ const AdminHome = () => {
     const navigate = useNavigate();
 
     const [availableCars, setAvailableCars] = useState([]);
-
+    
+    
     useEffect(() => {
         dispatch(fetchAllCars());
     }, [dispatch]);
-
+    
     useEffect(() => {
         setAvailableCars(cars);
     }, [cars]);
+    
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    if (!user.data.isAdmin) {
+        return <Navigate to="/" replace />
+    }
 
     const filterCars = (values) => {
         let from = moment(values[0], "MMM DD yyy HH:mm");
@@ -113,7 +120,7 @@ const AdminHome = () => {
                                         />
 
                                         <Popconfirm
-                                            title="Are you sure to delete this car?"
+                                            title="Are you sure you want to delete this car?"
                                             onConfirm={() =>
                                                 dispatch(
                                                     deleteCarAction({

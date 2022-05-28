@@ -4,8 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import { config } from "dotenv";
 import apicache from "apicache";
 
-import Bookings from "../modals/Bookings.js";
-import carModel from "../modals/carModel.js";
+import Bookings from "../models/Bookings.js";
+
+import protect from "../middleware/protect.js";
+import Cars from "../models/Cars.js";
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -15,8 +17,8 @@ const cache = apicache.middleware;
 
 config()
 
-
-router.post("/", async (req, res) => {
+// book a car
+router.post("/", protect, async (req, res) => {
     
     // const { token } = req.body;
     
@@ -44,7 +46,7 @@ router.post("/", async (req, res) => {
             await newBooking.save();
     
             // update cars model
-            const car = await carModel.findOne({ _id: req.body.car });
+            const car = await Cars.findOne({ _id: req.body.car });
             car.bookedTimeSlots.push(req.body.bookedTimeSlots);
             await car.save()
     
@@ -56,17 +58,16 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.get("/", cache("7 minutes"), async (req, res) => {
+// access all my bookings
+router.get("/", protect, cache("7 minutes"), async (req, res) => {
     try {
         const bookings = await Bookings.find().populate("car");
-        console.log(bookings);
+        // console.log(Bookings.populated("car"));
 
-        res.status(200).send({
-            message: "My bookings req successful!",
-            data: bookings,
-        });
+        res.status(200).send(bookings
+        );
     } catch (error) {
-        return res.status(400).json(error);
+        return res.status(400).json(error.message);
     }
 });
 

@@ -1,33 +1,43 @@
 {
-  "name": "carros-pra-aluguel",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "car rental full stack app",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/YellowFlash2012/carros-pra-aluguel.git"
-  },
-  "author": "Vivien H.",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/YellowFlash2012/carros-pra-aluguel/issues"
-  },
-  "homepage": "https://github.com/YellowFlash2012/carros-pra-aluguel#readme",
-  "dependencies": {
-    "apicache": "^1.6.3",
-    "bcryptjs": "^2.4.3",
-    "colors": "^1.4.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "mongoose": "^6.3.3",
-    "morgan": "^1.10.0",
-    "stripe": "^9.2.0",
-    "uuid": "^8.3.2"
-  }
+    "name": "carros-pra-aluguel",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "car rental full stack app",
+    "main": "server.js",
+    "engines": {
+        "node": "16.13.2",
+        "npm": "8.1.2"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "client-install": "npm install --prefix client",
+        "client": "npm start --prefix client",
+        "server": "nodemon server.js",
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "start": "nodemon server.js",
+        "heroku-postbuild": "NPM_CONFI_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/YellowFlash2012/carros-pra-aluguel.git"
+    },
+    "author": "Vivien H.",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/YellowFlash2012/carros-pra-aluguel/issues"
+    },
+    "homepage": "https://github.com/YellowFlash2012/carros-pra-aluguel#readme",
+    "dependencies": {
+        "apicache": "^1.6.3",
+        "bcryptjs": "^2.4.3",
+        "colors": "^1.4.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
+        "express": "^4.18.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.3.3",
+        "morgan": "^1.10.0",
+        "stripe": "^9.2.0",
+        "uuid": "^8.3.2"
+    }
 }

@@ -16,11 +16,16 @@ export const userLogin = createAsyncThunk("user/userLogin", (reqObj) => {
         localStorage.setItem("user", JSON.stringify(res.data));
 
         message.success("Login was successful")
-        
         setTimeout(() => {
+            const user = JSON.parse(localStorage.getItem("user"));
             
-            window.location.href="/"
-        }, 5000);
+            if (user.data.isAdmin) {
+                window.location.href = "/admin";
+            } else {
+                window.location.href="/"
+                
+            }
+        }, 3000);
 
     }).catch((error) => {
         isRejectedWithValue("Invalid Credentials")
@@ -49,6 +54,7 @@ export const userRegister = createAsyncThunk("user/userRegister", (reqObj) => {
 const authSlice = createSlice({
     name: "auth",
     initialState,
+    reducers:{},
 
     extraReducers: builder => {
         builder.addCase(userLogin.pending, state => {

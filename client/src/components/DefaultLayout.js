@@ -55,7 +55,12 @@ const DefaultLayout = (props) => {
                 <Row gutter={16} justify="center">
                     <Col lg={20} sm={24} xs={24}>
                         <div className="d-flex justify-content-between">
-                            <h1 style={{cursor:"pointer"}} onClick={()=>navigate("/")}>DeborahCars</h1>
+                            <h1
+                                style={{ cursor: "pointer" }}
+                                onClick={() => navigate("/")}
+                            >
+                                DeborahCars
+                            </h1>
 
                             {user ? (
                                 <Dropdown overlay={menu} placement="bottom">
@@ -74,7 +79,11 @@ const DefaultLayout = (props) => {
                 </Row>
             </div>
 
-            <div className="content mt-5">{props.children}</div>
+            <div className="content mb-5">{props.children}</div>
+
+            <div className="footer text-center">
+                <p>&copy; Copyright 2022 DeborahCars - All rights reserved</p>
+            </div>
         </div>
     );
 };

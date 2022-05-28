@@ -1,6 +1,8 @@
 import express from "express"
-import carModel from "../modals/carModel.js"
+import Cars from "../models/Cars.js"
 import apicache from "apicache";
+import admin from "../middleware/admin.js";
+import protect from "../middleware/protect.js";
 
 const router = express.Router()
 const cache = apicache.middleware;
@@ -8,7 +10,7 @@ const cache = apicache.middleware;
 // get all cars 
 router.get("/", cache("60 minutes"), async (req, res) => {
     try {
-        const cars = await carModel.find();
+        const cars = await Cars.find();
 
         res.status(200).send({message:"All cars req successful!", data:{cars}})
     } catch (error) {
@@ -17,9 +19,9 @@ router.get("/", cache("60 minutes"), async (req, res) => {
 })
 
 // add a new car
-router.post("/", async (req, res) => {
+router.post("/", admin, protect, async (req, res) => {
     try {
-        const newCar = new carModel(req.body);
+        const newCar = new Cars(req.body);
         await newCar.save();
     
         res.status(201).send({ message: "New car added successfully!" });
@@ -34,9 +36,9 @@ router.post("/", async (req, res) => {
 })
 
 // edit details of a car
-router.put("/:id", async (req, res) => {
+router.put("/:id", admin, protect, async (req, res) => {
     try {
-        const car = await carModel.findById({ id: req.body._id });
+        const car = await Cars.findById( req.params.id );
 
         car.name = req.body.name;
         car.image = req.body.image;
@@ -48,18 +50,19 @@ router.put("/:id", async (req, res) => {
 
         res.send("Car edited successfully!");
     } catch (error) {
-        return res.status(400).send(error)
+        return res.status(400).send(error);
     }
-})
+});
 
-router.delete("/:id", async (req, res) => {
+// delete a car
+router.delete("/:id", admin, protect, async (req, res) => {
     try {
-        await carModel.findOneAndDelete({ id: req.body._id });
+        await Cars.findOneAndDelete(req.params.id);
 
         res.send("This car is deleted!");
     } catch (error) {
-        return res.status(400).send(error)
+        return res.status(400).send(error);
     }
-})
+});
 
 export default router

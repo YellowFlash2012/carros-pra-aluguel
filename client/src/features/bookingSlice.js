@@ -27,10 +27,13 @@ export const bookACar = createAsyncThunk("booking/bookACar",(reqObj) => {
     });
 })
 
-export const fetchAllBookings = createAsyncThunk("booking/fetchAllBookings", () => {
+export const fetchAllBookings = createAsyncThunk("bookings/fetchAllBookings", () => {
     return axios
         .get("http://localhost:8000/api/v1/bookings")
-        .then((res) => res.data.data.bookings).catch((error) => {
+        .then((res) => (
+            // console.log(res.data);
+            res.data
+        )).catch((error) => {
             isRejectedWithValue("Fetch Unsuccessful");
             message.error("Something went wrong, please try again!");
         });

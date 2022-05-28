@@ -122,7 +122,7 @@ const CarBooking = () => {
 
     const carBookingHandler = () => {
         const reqObj = {
-            user: JSON.parse(localStorage.getItem("user"))._id,
+            user: JSON.parse(localStorage.getItem("user")).data.userID,
             car: car._id,
             totalHours,
             totalDue,
@@ -162,6 +162,8 @@ const CarBooking = () => {
                             src={car.image}
                             alt={car.name}
                             className="car-to-book-img bs1"
+                            data-aos="flip-left"
+                            data-aos-duration="1500"
                         />
                     </Col>
 
@@ -219,7 +221,7 @@ const CarBooking = () => {
                                     stripeKey="pk_test_51K12rVLF3utY5MntJ6fJgfiOnymfrAbsahlJuRzCC7XZw3ZvxuzaX7aNzYEa7y9YWYk0pWIiQQXB575YCnjpmbpB00H31ZhuMG"
                                 ></StripeCheckout>
                                 <button
-                                    className="booking-btn"
+                                    className="booking-btn ms-2"
                                     onClick={carBookingHandler}
                                 >
                                     Book Now

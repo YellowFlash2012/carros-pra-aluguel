@@ -1,6 +1,7 @@
 import express from "express"
 import bcrypt from "bcryptjs"
-import Users from "../modals/usersModel.js";
+import jwt from "jsonwebtoken"
+import Users from "../models/Users.js";
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
@@ -20,8 +21,10 @@ router.post("/login", async (req, res) => {
             return res.status(400).send("Invalid Credentials");
         }
         
+        // generate token
+        const token=jwt.sign({_id:user._id, username:user.username,email:user.email},process.env.jwt_token)
         
-            res.status(200).send({status:"success", message:"Login Successful", data:{userID:user._id,email:user.email,username:user.username}})
+            res.status(200).send({status:"success", message:"Login Successful", data:{userID:user._id,email:user.email,username:user.username, isAdmin:user.isAdmin}, token:token})
         
     } catch (error) {
         return res.status(400).json(error);
@@ -45,7 +48,10 @@ router.post("/register", async (req, res) => {
         
         await user.save()
 
-        res.status(201).send({status:"success",message:"New user registration successful!"})
+        // generate token
+        const token=jwt.sign({_id:user._id, username:user.username,email:user.email},process.env.jwt_token)
+
+        res.status(201).send({status:"success",message:"New user registration successful!",data:{user:user,token:token}})
     } catch (error) {
         return res.status(400).json(error);
     }

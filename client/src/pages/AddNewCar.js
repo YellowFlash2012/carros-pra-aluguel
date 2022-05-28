@@ -3,12 +3,18 @@ import DefaultLayout from "../components/DefaultLayout";
 
 import {useDispatch, useSelector} from "react-redux"
 import { addNewCarAction } from "../features/carsSlice";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AddNewCar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { loading } = useSelector(store => store.cars);
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    if (!user.data.isAdmin) {
+        return <Navigate to="/" replace />;
+    }
 
     const addNewCarHandler = (values) => {
         console.log(values);

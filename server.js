@@ -2,6 +2,7 @@ import express from "express"
 import { config } from "dotenv";
 import morgan from "morgan"
 import cors from "cors"
+import path from "path";
 import connectDB from "./db.js";
 import carsRoutes from "./routes/cars.js"
 import userRoutes from "./routes/users.js"
@@ -27,6 +28,15 @@ app.get("/", (req, res)=> {
 app.use("/api/v1/cars", carsRoutes)
 app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/bookings", bookingRoutes)
+
+// config for deployment
+if (process.env.NODE_ENV="production") {
+    app.use("/", express.static("client/build"));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client/build/index.html"));
+    });
+}
 
 connectDB()
 app.listen(port, () => {

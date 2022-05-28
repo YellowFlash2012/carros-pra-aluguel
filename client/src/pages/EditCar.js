@@ -2,14 +2,14 @@ import { Button, Col, Form, Input, Row, Spin } from "antd";
 import DefaultLayout from "../components/DefaultLayout";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { editCarAction, fetchAllCars } from "../features/carsSlice";
 
-const EditCar = ({match}) => {
+const EditCar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    let carID  = useParams();
+    let {carID} = useParams();
     console.log(carID);
 
     const [carToEdit, setCarToEdit] = useState();
@@ -18,17 +18,23 @@ const EditCar = ({match}) => {
     const { loading, cars } = useSelector((store) => store.cars);
     console.log(cars);
 
-    console.log(cars.find((o) => o._id.ObjectId === carID.ObjectId));
+    console.log(cars.find((car) => car._id === carID));
 
     useEffect(() => {
         if (cars.length === 0) {
             dispatch(fetchAllCars());
         } else {
             setTotalCars(cars)
-            setCarToEdit(cars.find((car) => (car._id).str === carID.str));
+            setCarToEdit(cars.find((car) => car._id === carID));
             console.log(carToEdit);
         }
-    }, [cars]);
+    }, [cars, carToEdit, dispatch, carID]);
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    
+    if (!user.data.isAdmin) {
+        return <Navigate to="/" replace />;
+    }
 
     const EditCarHandler = (values) => {
         values._id = carToEdit._d
