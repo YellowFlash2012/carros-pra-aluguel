@@ -1,6 +1,8 @@
 # carros-pra-aluguel
 Cars rental full stack app
 
+<a href="https://carros-pra-aluguel.herokuapp.com/">Live preview</a>
+
 ![carros-pra-aluguel](/public/deborahcars_hp.png)
 
 # Scope: This  app enables car renters to rent a car of their choice within a time range. It is inspired by this udemy <a href="https://www.udemy.com/course/mern-stack-car-rental-application-2021-react-redux-node/">course</a>

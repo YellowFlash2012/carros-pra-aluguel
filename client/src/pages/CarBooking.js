@@ -66,49 +66,43 @@ const CarBooking = () => {
 
     console.log(car);
 
+    // disabledDates in <RangePicker/>
     const range = (start, end) => {
-        const result = [];
-        for (let i = start; i < end; i++) {
-            result.push(i);
-        }
-        return result;
-    }
-
-    const rangeOfDate = (start, end) => {
-
         const dates = [];
 
-        let currentDate = start;
-        const addDays = function (days) {
-            const date = new Date(this.valueOf());
-            date.setDate(date.getDate() + days);
-            return date;
-        };
-        while (currentDate <= end) {
-            dates.push(currentDate);
-            currentDate = addDays.call(currentDate, 1);
-        }
-        return dates;
+        car.bookedTimeSlots.map((element) => {
+            
+            start = new Date(element.from);
+            end = new Date(element.to);
 
-        
+            console.log(start, end);
+
+            let currentDate = new Date(
+                start.getFullYear(),
+                start.getMonth(),
+                start.getDate()
+            );
+            while (currentDate <= end) {
+                dates.push(currentDate);
+    
+                currentDate = new Date(
+                    currentDate.getFullYear(),
+                    currentDate.getMonth(),
+                    currentDate.getDate() + 1
+                );
+            }
+
+        });
+
+        console.log(dates);
+        return dates;
     }
 
-    let start;
-    let end;
+    const disabledDate = (current) => {
+        // Can not select days before today and today
+        return current && current < moment().endOf("day");
+    };
 
-    // car.bookedTimeSlots.map((element) => {
-    //     start = element.from;
-    //     end = element.to;
-        
-    //     console.log(start, end);
-        
-    //     const dates = rangeOfDate(new Date(start), new Date(end));
-        
-    //     dates.forEach((date) => {
-    //         console.log(date);
-    //     })
-    // });
-    
     const selectTimeSlots = (values) => {
         console.log(moment(values[0]).format("MMM DD yyy HH:mm"));
         console.log(moment(values[1]).format("MMM DD yyy HH:mm"));
@@ -189,6 +183,7 @@ const CarBooking = () => {
                             showTime={{ format: "HH:mm" }}
                             format="MMM DD yyyy HH:mm"
                             onChange={selectTimeSlots}
+                            disabledDate={disabledDate}
                         />
 
                         {from && to && (
