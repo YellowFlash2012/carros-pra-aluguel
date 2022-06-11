@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchAllCars } from "../features/carsSlice";
 
-import { Button, Col, Row, Spin, DatePicker, Checkbox } from "antd";
+import { Col, Row, Spin, DatePicker} from "antd";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
