@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/too
 import {message} from "antd"
 
 import axios from "axios";
+import API from "../utils";
 
 const initialState = {
     loading: false,
@@ -12,7 +13,7 @@ const initialState = {
 
 
 export const userLogin = createAsyncThunk("user/userLogin", (reqObj) => {
-    axios.post("http://localhost:8000/api/v1/users/login", reqObj).then((res) => {
+    axios.post(`${API}/api/v1/users/login`, reqObj).then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
 
         message.success("Login was successful")
@@ -35,20 +36,20 @@ export const userLogin = createAsyncThunk("user/userLogin", (reqObj) => {
 })
 
 export const userRegister = createAsyncThunk("user/userRegister", (reqObj) => {
-    axios.post("http://localhost:8000/api/v1/users/register", reqObj).then((res) => {
-        
-        message.success("User successfully registered!");
-        
-        setTimeout(() => {
-            
-            window.location.href = "/login";
-        }, 5000);
+    axios
+        .post(`${API}/api/v1/users/register`, reqObj)
+        .then((res) => {
+            message.success("User successfully registered!");
 
-    }).catch((error) => {
-        isRejectedWithValue("Something went wrong!");
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 5000);
+        })
+        .catch((error) => {
+            isRejectedWithValue("Something went wrong!");
 
-        message.error("Something went wrong. Kindly try again");
-    });
+            message.error("Something went wrong. Kindly try again");
+        });
 })
 
 const authSlice = createSlice({

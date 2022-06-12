@@ -7,6 +7,7 @@ import {
 import { message } from "antd";
 
 import axios from "axios";
+import API from "../utils";
 
 const initialState = {
     loading: false,
@@ -15,7 +16,7 @@ const initialState = {
 }; 
 
 export const bookACar = createAsyncThunk("booking/bookACar",(reqObj) => {
-    axios.post("http://localhost:8000/api/v1/bookings", reqObj).then((res) => {
+    axios.post(`${API}/api/v1/bookings`, reqObj).then((res) => {
         message.success("Booking was successful!");
 
         setTimeout(() => {
@@ -29,11 +30,13 @@ export const bookACar = createAsyncThunk("booking/bookACar",(reqObj) => {
 
 export const fetchAllBookings = createAsyncThunk("bookings/fetchAllBookings", () => {
     return axios
-        .get("http://localhost:8000/api/v1/bookings")
-        .then((res) => (
-            // console.log(res.data);
-            res.data
-        )).catch((error) => {
+        .get(`${API}/api/v1/bookings`)
+        .then(
+            (res) =>
+                // console.log(res.data);
+                res.data
+        )
+        .catch((error) => {
             isRejectedWithValue("Fetch Unsuccessful");
             message.error("Something went wrong, please try again!");
         });
