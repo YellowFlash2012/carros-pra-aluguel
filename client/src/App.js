@@ -1,17 +1,20 @@
 
-import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+
 import CarBooking from "./pages/CarBooking";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 
-import "antd/dist/antd.css";
 import MyBookings from "./pages/MyBookings";
 import AddNewCar from "./pages/AddNewCar";
 import AdminHome from "./pages/AdminHome";
 import EditCar from "./pages/EditCar";
+
+// import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
+import NotFound from "./pages/NotFound";
 
 function App() {
   // let carID  = useParams();
@@ -34,6 +37,8 @@ function App() {
                   <Route path="/admin" element={<AdminHome />} />
 
                   <Route path="/edit-car/:carID" element={<EditCar />} />
+
+                  <Route path="*" element={<NotFound />} />
               </Routes>
           </BrowserRouter>
       </div>

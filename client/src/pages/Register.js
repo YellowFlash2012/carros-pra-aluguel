@@ -68,6 +68,10 @@ const Register = () => {
                             <Input type="password" />
                         </Form.Item>
 
+                        <button type="button" className="login-btn me-2">
+                            <Link to="/">Cancel</Link>
+                        </button>
+
                         <button className="login-btn">Register</button>
                         <p style={{ color: "white" }}>
                             Already have an account?{" "}
