@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 
 // config for deployment
@@ -45,6 +45,6 @@ app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/bookings", bookingRoutes)
 
 connectDB()
-app.listen(port, () => {
-    console.log(`Server on | Port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server on | Port ${PORT}`);
 })
