@@ -1,19 +1,20 @@
 import express from "express"
 import { config } from "dotenv";
 import morgan from "morgan"
-import cors from "cors"
+
 import path from "path";
 import connectDB from "./db.js";
 import carsRoutes from "./routes/cars.js"
 import userRoutes from "./routes/users.js"
 import bookingRoutes from "./routes/bookings.js"
+import { errorHandler } from "./middleware/error.js";
 
 
 config()
 
 const app = express();
 app.use(express.json())
-app.use(cors())
+
 
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
@@ -36,15 +37,20 @@ if ((process.env.NODE_ENV === "production")) {
     });
 }
 
-app.get("/", (req, res)=> {
-    res.send("We are live and ready!")
-})
+// app.get("/", (req, res)=> {
+//     res.send("We are live and ready!")
+// })
 
 app.use("/api/v1/cars", carsRoutes)
 app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/bookings", bookingRoutes)
 
+app.use(errorHandler())
+
 connectDB()
 app.listen(PORT, () => {
-    console.log(`Server on | Port ${PORT}`);
+    console.log(
+        `Server running in ${process.env.NODE_ENV} mode | Port ${PORT}`.yellow
+            .bold
+    );
 })

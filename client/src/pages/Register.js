@@ -1,17 +1,21 @@
-import { Row, Col, Form, Input, Spin } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Row, Col, Form, Input, Spin, message } from "antd";
+import { Link} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./Login.css";
-import { userRegister } from "../features/authSlice";
+import { userLogin, userRegister } from "../features/authSlice";
 
 const Register = () => {
-    const navigate = useNavigate();
+    
     const dispatch = useDispatch();
 
-    const { loading, error } = useSelector((store) => store.auth);
+    const { loading, error} = useSelector((store) => store.auth);
 
     const registerHandler = (data) => {
         dispatch(userRegister(data))
+
+        if (!error) {
+            dispatch(userLogin(data))
+        }
 
         // navigate("/login")
         console.log(data);
@@ -21,7 +25,8 @@ const Register = () => {
         <div className="login">
             {loading && <Spin className="spinner" size="large" />}
 
-            {}
+            {error && message.error(error.message)}
+
             <Row gutter={16}>
                 <Col lg={16} className="d-flex align-items-center">
                     <img

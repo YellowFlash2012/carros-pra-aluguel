@@ -1,11 +1,11 @@
-import { Row, Col, Form, Input, Spin } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Row, Col, Form, Input, Spin, message } from "antd";
+import { Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
 import "./Login.css";
 import { userLogin } from "../features/authSlice";
 
 const Login = () => {
-    const navigate = useNavigate();
+    
     const dispatch = useDispatch();
 
     const { loading, error } = useSelector(store => store.auth);
@@ -19,7 +19,8 @@ const Login = () => {
         <div className="login">
             {loading && <Spin className="spinner" size="large" />}
 
-            {!loading && error && <h2>{error.message }</h2>}
+            {error && message.error(error.message)}
+            
             <Row gutter={16}>
                 <Col lg={16} className="d-flex align-items-center">
                     <img

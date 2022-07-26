@@ -1,91 +1,107 @@
-import { createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import {message} from "antd"
 
 import axios from "axios";
-import API from "../utils";
+
 
 const initialState = {
     loading: false,
-    user: {},
-    error: "",
+    user: JSON.parse(localStorage.getItem("user")),
+    error: false,
 };
 
 
-export const userLogin = createAsyncThunk("user/userLogin", (reqObj) => {
-    axios.post(`${API}/api/v1/users/login`, reqObj).then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.data));
+export const userLogin = createAsyncThunk("user/userLogin", async (reqObj, thunkAPI) => {
+    try {
+        const res = await axios.post(`/api/v1/users/login`, reqObj)
+        
+        return res.data
 
-        message.success("Login was successful")
-        setTimeout(() => {
-            const user = JSON.parse(localStorage.getItem("user"));
-            
-            if (user.data.isAdmin) {
-                window.location.href = "/admin";
-            } else {
-                window.location.href="/"
-                
-            }
-        }, 3000);
-
-    }).catch((error) => {
-        isRejectedWithValue("Invalid Credentials")
-
-        message.error("Invalid credentials");
-    });
+    } catch (error) {
+        console.log(error.response);
+        return thunkAPI.rejectWithValue(error.response.data.message);
+        
+    }
+    
 })
 
-export const userRegister = createAsyncThunk("user/userRegister", (reqObj) => {
-    axios
-        .post(`${API}/api/v1/users/register`, reqObj)
-        .then((res) => {
-            message.success("User successfully registered!");
-
-            setTimeout(() => {
-                window.location.href = "/login";
-            }, 5000);
-        })
-        .catch((error) => {
-            isRejectedWithValue("Something went wrong!");
-
-            message.error("Something went wrong. Kindly try again");
-        });
+export const userRegister = createAsyncThunk("user/userRegister", async (reqObj, thunkAPI) => {
+    try {
+        const res = await axios.post(`/api/v1/users/register`, reqObj)
+        
+        return res.data;
+        
+    } catch (error) {
+        
+        return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+        
 })
 
 const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers:{},
+    reducers: {
+        logout: (state, { payload }) => {
+            state.user = null;
+            localStorage.removeItem("user");
+        },
+    },
 
-    extraReducers: builder => {
-        builder.addCase(userLogin.pending, state => {
+    extraReducers: (builder) => {
+        builder.addCase(userLogin.pending, (state) => {
             state.loading = true;
         });
 
-        builder.addCase(userLogin.fulfilled, state => {
+        builder.addCase(userLogin.fulfilled, (state, { payload }) => {
+            console.log(payload);
+            const user = payload;
             state.loading = false;
-            state.error = "";
+            state.user = user;
+
+            localStorage.setItem("user", JSON.stringify(user));
+            message.success(`Welcome back, ${user.data.username}`);
+
+            setTimeout(() => {
+                if (user.data.isAdmin) {
+                    window.location.href = "/admin";
+                } else {
+                    window.location.href = "/";
+                }
+            }, 3000);
         });
 
         builder.addCase(userLogin.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error.message;
+            state.error = true;
+
+            console.log(action.error);
+            message.error(action.error.message);
         });
 
-        builder.addCase(userRegister.pending, state => {
+        // ***signup
+        builder.addCase(userRegister.pending, (state) => {
             state.loading = true;
         });
 
-        builder.addCase(userRegister.fulfilled, (state) => {
+        builder.addCase(userRegister.fulfilled, (state, { payload }) => {
+            const user = payload;
             state.loading = false;
-            state.error = "";
+            state.user = user;
+
+            localStorage.setItem("user", JSON.stringify(user));
+            message.success(`Welcome aboard, ${user.data.name}`);
         });
 
         builder.addCase(userRegister.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error.message;
+            state.error = true;
+            message.error(action.error.message);
         });
-    }
-})
+    },
+});
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
