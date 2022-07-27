@@ -25,7 +25,6 @@ const Register = () => {
         <div className="login">
             {loading && <Spin className="spinner" size="large" />}
 
-            {error && message.error(error.message)}
 
             <Row gutter={16}>
                 <Col lg={16} className="d-flex align-items-center">

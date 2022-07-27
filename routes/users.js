@@ -1,10 +1,21 @@
 import express from "express"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+
+import rateLimiter from "express-rate-limit";
+
+
 import Users from "../models/Users.js";
+
+const apiLimiter = rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 3,
+    message: "Too many requests from this IP address",
+});
+
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
+router.post("/login", apiLimiter, async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -31,7 +42,7 @@ router.post("/login", async (req, res) => {
     }
 })
 
-router.post("/register", async (req, res) => {
+router.post("/register", apiLimiter, async (req, res) => {
     const { username, email, password } = req.body;
 
     try {

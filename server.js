@@ -3,6 +3,11 @@ import { config } from "dotenv";
 import morgan from "morgan"
 
 import path from "path";
+import helmet from "helmet";
+import xss from "xss-clean";
+import mongoSanitize from "express-mongo-sanitize";
+
+
 import connectDB from "./db.js";
 import carsRoutes from "./routes/cars.js"
 import userRoutes from "./routes/users.js"
@@ -14,6 +19,9 @@ config()
 
 const app = express();
 app.use(express.json())
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize());
 
 
 if (process.env.NODE_ENV === "development") {
@@ -45,7 +53,7 @@ app.use("/api/v1/cars", carsRoutes)
 app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/bookings", bookingRoutes)
 
-app.use(errorHandler())
+app.use(errorHandler)
 
 connectDB()
 app.listen(PORT, () => {

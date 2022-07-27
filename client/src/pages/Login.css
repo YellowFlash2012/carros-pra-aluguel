@@ -1,13 +1,14 @@
 .login {
     display: flex;
+    
     justify-content: center;
     align-items: center;
     height: 100vh;
-    width: 100vw;
+    overflow-y: hidden;
+    overflow-x: hidden;
     
     background-color: #000;
-    overflow-y: hidden;
-    overflow-y: hidden;
+    
 }
 
 .login label, .login h1 {

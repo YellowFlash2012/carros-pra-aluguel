@@ -19,8 +19,8 @@ export const userLogin = createAsyncThunk("user/userLogin", async (reqObj, thunk
         return res.data
 
     } catch (error) {
-        console.log(error.response);
-        return thunkAPI.rejectWithValue(error.response.data.message);
+        console.log(error.response.data);
+        return thunkAPI.rejectWithValue(error.response.data);
         
     }
     
@@ -76,8 +76,8 @@ const authSlice = createSlice({
             state.loading = false;
             state.error = true;
 
-            console.log(action.error);
-            message.error(action.error.message);
+            
+            message.error(action.payload);
         });
 
         // ***signup
