@@ -11,10 +11,11 @@ import MyBookings from "./pages/MyBookings";
 import AddNewCar from "./pages/AddNewCar";
 import AdminHome from "./pages/AdminHome";
 import EditCar from "./pages/EditCar";
+import NotFound from "./pages/NotFound";
 
 // import "antd/dist/antd.css";
 import "antd/dist/antd.min.css";
-import NotFound from "./pages/NotFound";
+
 
 function App() {
   // let carID  = useParams();
