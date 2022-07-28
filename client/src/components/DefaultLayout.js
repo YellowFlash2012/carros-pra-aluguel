@@ -1,15 +1,14 @@
 import { Menu, Dropdown, Button, Row, Col } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
+import { logout } from "../features/authSlice";
 
 const DefaultLayout = (props) => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const {user} = useSelector(store => store.auth);
+
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
-
-    const logoutHandler = () => {
-        localStorage.removeItem("user")
-        navigate("/")
-    }
 
     const menu = (
         <Menu
@@ -40,7 +39,7 @@ const DefaultLayout = (props) => {
 
                 {
                     label: (
-                        <a href="/" onClick={logoutHandler}>
+                        <a href="/" onClick={()=>dispatch(logout())}>
                             Logout
                         </a>
                     ),

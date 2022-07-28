@@ -8,6 +8,7 @@ import Bookings from "../models/Bookings.js";
 
 import protect from "../middleware/protect.js";
 import Cars from "../models/Cars.js";
+import admin from "../middleware/admin.js";
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -58,14 +59,30 @@ router.post("/", protect, async (req, res) => {
     }
 })
 
-// access all my bookings
-router.get("/", protect, cache("7 minutes"), async (req, res) => {
+// get logged in user bookings
+router.get("/mybookings", protect, async (req, res) => {
+    console.log(req.user);
     try {
-        const bookings = await Bookings.find().populate("car");
-        // console.log(Bookings.populated("car"));
-
+        const bookings = await Bookings.where({ user: req.user._id }).populate("car");
+        console.log(req.user._id);
+        
         res.status(200).send(bookings
         );
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
+});
+
+// get all bookings by admin
+router.get("/", protect, admin, cache("7 minutes"), async (req, res) => {
+    try {
+        const bookings = await Bookings.find().populate(
+            "car"
+        );
+
+        
+
+        res.status(200).send(bookings);
     } catch (error) {
         return res.status(400).json(error.message);
     }

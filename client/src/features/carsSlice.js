@@ -14,7 +14,7 @@ export const fetchAllCars = createAsyncThunk("cars/fetchAllCars", async (thunkAP
     try {
         const res = await axios.get('/api/v1/cars');
 
-        console.log(res);
+        // console.log(res);
         return res.data;
         
     } catch (error) {
@@ -84,7 +84,7 @@ const carsSlice = createSlice({
             
             // console.log(action.payload.data.cars);
             state.loading = false;
-            state.cars = action.payload.data.cars;
+            state.cars = action.payload?.data.cars;
             
         });
 

@@ -12,12 +12,18 @@ import axios from "axios";
 const initialState = {
     loading: false,
     bookings: [],
+    myBookings:[],
     error: false,
 }; 
 
-export const bookACar = createAsyncThunk("booking/bookACar", async (reqObj, thunkAPI) => {
+export const bookACar = createAsyncThunk("bookings/bookACar", async (reqObj, thunkAPI) => {
+    console.log(thunkAPI);
     try {
-        const res = await axios.post('/api/v1/bookings', reqObj);
+        const res = await axios.post('/api/v1/bookings', reqObj, {
+                headers: {
+                    authorization: `Bearer ${thunkAPI.getState().auth.user.token}`,
+                },
+            });
 
         return res.data;
         
@@ -27,9 +33,35 @@ export const bookACar = createAsyncThunk("booking/bookACar", async (reqObj, thun
     
 })
 
-export const fetchAllBookings = createAsyncThunk("bookings/fetchAllBookings", async (thunkAPI) => {
+export const fetchAllBookings = createAsyncThunk("bookings/fetchAllBookings", async (data, thunkAPI) => {
+    // console.log(thunkAPI);
     try {
-        const res = await axios.get('/api/v1/bookings');
+        const res = await axios.get("/api/v1/bookings", {
+            headers: {
+                authorization: `Bearer ${thunkAPI.getState().auth.user.token}`,
+            },
+        });
+
+        console.log(res);
+        return res.data;
+        
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+        
+    }
+        
+});
+
+export const fetchMyBookings = createAsyncThunk("bookings/fetchMyBookings", async (data, thunkAPI) => {
+    // console.log(thunkAPI);
+    try {
+        const res = await axios.get("/api/v1/bookings/mybookings", {
+            headers: {
+                authorization: `Bearer ${thunkAPI.getState().auth.user.token}`,
+            },
+        });
+
+        console.log(res.data);
 
         return res.data;
         
@@ -45,6 +77,7 @@ const bookingSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
+        // ***all bookings by admin
         builder.addCase(fetchAllBookings.pending, (state) => {
             state.loading = true;
         });
@@ -62,7 +95,26 @@ const bookingSlice = createSlice({
 
             message.error(action.error.message);
         });
+        
+        // ***my bookings
+        builder.addCase(fetchMyBookings.pending, (state) => {
+            state.loading = true;
+        });
 
+        builder.addCase(fetchMyBookings.fulfilled, (state, action) => {
+            state.loading = false;
+            state.myBookings = action.payload;
+        });
+
+        builder.addCase(fetchMyBookings.rejected, (state, action) => {
+            state.loading = false;
+
+            state.error = true;
+
+            message.error(action.error.message);
+        });
+
+        // ***book a car
         builder.addCase(bookACar.pending, (state) => {
             state.loading = true;
         });

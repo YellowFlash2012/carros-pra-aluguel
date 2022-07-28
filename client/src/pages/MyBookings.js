@@ -4,19 +4,19 @@ import { useDispatch, useSelector } from "react-redux"
 import moment from "moment";
 
 import DefaultLayout from "../components/DefaultLayout";
-import { fetchAllBookings } from "../features/bookingSlice";
+import { fetchMyBookings } from "../features/bookingSlice";
 
 
 
 const MyBookings = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const { bookings, loading, error } = useSelector(store => store.bookings);
-    console.log(bookings);
+    
+    const { myBookings, loading, error } = useSelector(store => store.bookings);
+    console.log(myBookings);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchAllBookings())
+        dispatch(fetchMyBookings())
     },[dispatch]);
 
     return (
@@ -28,10 +28,10 @@ const MyBookings = () => {
             <Row justify="center" gutter={16}>
                 <Col lg={20} sm={24}>
                     <>
-                        {!loading && bookings ? (
-                            bookings
-                                .filter((o) => o.user === user.data.userID)
-                                .map((booking) => (
+                        {!loading &&
+                            myBookings.length>0 ? 
+                                
+                                myBookings?.map((booking) => (
                                     <Row className="bs1 mt-2 text-left d-flex align-items-center justify-content-between">
                                         <Col lg={7} sm={24}>
                                             <p>
@@ -98,11 +98,11 @@ const MyBookings = () => {
                                         </Col>
                                     </Row>
                                 ))
-                        ) : (
-                            <h3 className="text-center">
+                            :( <h3 className="text-center">
                                 No booking yet! Make one quick!
-                            </h3>
-                        )}
+                            </h3>)
+                        }
+                            
                     </>
                 </Col>
             </Row>

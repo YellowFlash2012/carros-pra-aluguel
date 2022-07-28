@@ -9,10 +9,12 @@ const initialState = {
     loading: false,
     user: JSON.parse(localStorage.getItem("user")),
     error: false,
+    users:[]
 };
 
 
-export const userLogin = createAsyncThunk("user/userLogin", async (reqObj, thunkAPI) => {
+export const userLogin = createAsyncThunk("auth/userLogin", async (reqObj, thunkAPI) => {
+    console.log(thunkAPI);
     try {
         const res = await axios.post(`/api/v1/users/login`, reqObj)
         
@@ -26,7 +28,7 @@ export const userLogin = createAsyncThunk("user/userLogin", async (reqObj, thunk
     
 })
 
-export const userRegister = createAsyncThunk("user/userRegister", async (reqObj, thunkAPI) => {
+export const userRegister = createAsyncThunk("auth/userRegister", async (reqObj, thunkAPI) => {
     try {
         const res = await axios.post(`/api/v1/users/register`, reqObj)
         
@@ -38,6 +40,27 @@ export const userRegister = createAsyncThunk("user/userRegister", async (reqObj,
     }
         
 })
+
+export const getAllUsers = createAsyncThunk(
+    "auth/getAllUsers",
+    async (data, thunkAPI) => {
+        console.log(thunkAPI.getState());
+        try {
+            const res = await axios.get("/api/v1/users/", {
+                headers: {
+                    authorization: `Bearer ${
+                        thunkAPI.getState().auth.user.token
+                    }`,
+                },
+            });
+            console.log(thunkAPI, thunkAPI.getState());
+            console.log(res.data);
+            return res.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data.message);
+        }
+    }
+);
 
 const authSlice = createSlice({
     name: "auth",
@@ -95,6 +118,24 @@ const authSlice = createSlice({
         });
 
         builder.addCase(userRegister.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true;
+            message.error(action.error.message);
+        });
+        
+        // ***get all users by admin
+        builder.addCase(getAllUsers.pending, (state) => {
+            state.loading = true;
+        });
+
+        builder.addCase(getAllUsers.fulfilled, (state, { payload }) => {
+            
+            state.loading = false;
+            state.users = payload;
+
+        });
+
+        builder.addCase(getAllUsers.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
             message.error(action.error.message);

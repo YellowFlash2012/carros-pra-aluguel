@@ -3,25 +3,26 @@ import Users from "../models/Users.js";
 
 const protect = async (req, res, next) => {
     
-    const id = req.body.user;
+    const authHeader = req.headers.authorization;
 
-    const user = Users.findById(id, (err, docs) => {
-        if (err) {
-            console.error(err);
-            return res.status(400).send("Access forbidden! You need to login");
-        } else {
-            console.log(docs);
-            next()
-        }
-    });
+    if (!authHeader || !authHeader.startsWith("Bearer")) {
+        return "You can't do that!"
+    }
 
-    // console.log(id, user.email);
-    
-    // if (!user.username) {
-    //     return res.status(400).send("Access forbidden! You need to login")
-    // } 
+    const token = authHeader.split(" ")[1];
 
-    // next()
+    try {
+        const payload = jwt.verify(token, process.env.jwt_token);
+
+        const user = await Users.findOne({ _id: payload._id });
+
+        req.user = user;
+        // console.log(req.user);
+        next()
+    } catch (error) {
+        throw new Error("You are not authorized to do that!");
+    }
+
 }
 
 export default protect

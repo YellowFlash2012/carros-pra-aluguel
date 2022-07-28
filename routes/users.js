@@ -6,6 +6,8 @@ import rateLimiter from "express-rate-limit";
 
 
 import Users from "../models/Users.js";
+import protect from "../middleware/protect.js";
+import admin from "../middleware/admin.js";
 
 const apiLimiter = rateLimiter({
     windowMs: 15 * 60 * 1000,
@@ -33,7 +35,7 @@ router.post("/login", apiLimiter, async (req, res) => {
         }
         
         // generate token
-        const token=jwt.sign({_id:user._id, username:user.username,email:user.email},process.env.jwt_token)
+        const token=jwt.sign({_id:user._id},process.env.jwt_token)
         
             res.status(200).send({status:"success", message:"Login Successful", data:{userID:user._id,email:user.email,username:user.username, isAdmin:user.isAdmin}, token:token})
         
@@ -60,10 +62,23 @@ router.post("/register", apiLimiter, async (req, res) => {
         await user.save()
 
         // generate token
-        const token=jwt.sign({_id:user._id, username:user.username,email:user.email},process.env.jwt_token)
+        const token=jwt.sign({_id:user._id},process.env.jwt_token)
 
         res.status(201).send({status:"success",message:"New user registration successful!",data:{user:user,token:token}})
     } catch (error) {
+        return res.status(400).json(error);
+    }
+})
+
+// get all users
+router.get("/", protect, admin, async (req, res) => {
+    try {
+        const users = await Users.find();
+
+        res.status(200).send(users)
+        
+    } catch (error) {
+        
         return res.status(400).json(error);
     }
 })
